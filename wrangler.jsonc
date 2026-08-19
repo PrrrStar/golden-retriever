@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "golden-retriever",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-19",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "CLASSIFIER_VERSION": "2026-08-19.1",
+    "SITE_ORIGIN": "http://localhost:8787"
+  },
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "golden-retriever",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
