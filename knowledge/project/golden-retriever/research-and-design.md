@@ -1,3 +1,20 @@
+---
+id: gr:project:research-and-design
+title: "Golden Retriever research and design"
+domain: agent
+topology: project
+tags: [golden-retriever, ai-retrieval, telemetry, experiment, architecture]
+status: in-progress
+last_updated: 2026-08-20
+author: jeemin.kim
+schema_version: 1
+summary: "AI retrieval sensor 가설, 조사 결과, 최소 도메인 모델과 MVP 아키텍처 결정 기록"
+describes: [project:golden-retriever]
+informs: [gr:project:experiment-1, gr:playbook:experiment-1-operations]
+governed_by: [gr:standard:privacy-and-telemetry-policy]
+source_urls: [https://devops-mcp.yanolja.in/mcp, https://arxiv.org/abs/2604.02544]
+---
+
 # Golden Retriever research and design
 
 Last reviewed: 2026-08-20

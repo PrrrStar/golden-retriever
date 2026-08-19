@@ -1,3 +1,18 @@
+---
+id: gr:standard:privacy-and-telemetry-policy
+title: "Privacy and telemetry policy"
+domain: agent
+topology: standard
+tags: [golden-retriever, privacy, telemetry, retention, classification]
+status: stable
+last_updated: 2026-08-20
+author: jeemin.kim
+schema_version: 1
+summary: "Golden Retriever telemetry의 수집 최소화, 보존 기간과 분류 한계 정책"
+describes: [policy:golden-retriever-privacy-and-telemetry]
+governs: [gr:project:research-and-design, gr:project:experiment-1, gr:playbook:experiment-1-operations]
+---
+
 # Privacy and telemetry policy
 
 Golden Retriever measures aggregate retrieval attention. It does not seek personal prompts or individual identity.

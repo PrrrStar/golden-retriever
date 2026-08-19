@@ -1,13 +1,30 @@
+---
+id: gr:playbook:experiment-1-operations
+title: "Experiment 1 operations"
+domain: agent
+topology: playbook
+tags: [golden-retriever, experiment-1, operations, calibration, sites]
+status: stable
+last_updated: 2026-08-20
+author: jeemin.kim
+schema_version: 1
+summary: "Experiment 1을 일관되게 운영하고 판정하기 위한 14일 실행 절차"
+describes: [workflow:golden-retriever-experiment-1-operations]
+implements: [gr:project:experiment-1]
+produces: [gr:event:experiment-1-public-start-20260820]
+governed_by: [gr:standard:privacy-and-telemetry-policy]
+---
+
 # Experiment 1 operations
 
-This runbook turns the design in `experiment-1.md` into a repeatable 14-day operation. It intentionally avoids a dashboard, request-time LLM calls, and new infrastructure.
+This runbook turns the [Experiment 1 design](../project/golden-retriever/experiment-1.md) into a repeatable 14-day operation. It intentionally avoids a dashboard, request-time LLM calls, and new infrastructure.
 
 ## Current deployment state
 
 - Sites project and D1 binding are provisioned.
 - Version 1 passed a production health, Trap response, observation-write, and aggregate-read smoke test.
 - Provider-published OpenAI, Anthropic, and Perplexity network ranges were loaded successfully.
-- Access is public. The experiment clock started after anonymous retrieval and production D1 writes were verified; see `experiment-1-log.md`.
+- Access is public. The experiment clock started after anonymous retrieval and production D1 writes were verified; see the [public-start event](../event/experiment-1-public-start-20260820.md).
 
 ## Operator environment
 
@@ -113,5 +130,5 @@ Run once in a fixed KST window:
 1. Freeze the experiment end timestamp.
 2. Export aggregate-only results for 6h, 24h, 72h, and full-run windows.
 3. Record indexed Trap count and time-to-first-indexer observation.
-4. Apply the proceed, iterate, or stop criteria from `experiment-1.md`.
+4. Apply the proceed, iterate, or stop criteria from the [Experiment 1 design](../project/golden-retriever/experiment-1.md).
 5. If the run extends beyond 30 days, verify raw-observation retention cleanup before extension.

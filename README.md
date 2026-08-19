@@ -59,13 +59,17 @@ curl -X POST http://localhost:8787/api/admin/calibration-attempts \
 
 Only `direct_url` or `natural_question` prompt classes are accepted. Prompt text is intentionally not accepted or stored.
 
-## Design
+## Knowledge
 
-- [Research and design](docs/research-and-design.md)
-- [Experiment 1](docs/experiment-1.md)
-- [Experiment 1 operations](docs/experiment-1-operations.md)
-- [Experiment 1 log](docs/experiment-1-log.md)
-- [Privacy](docs/privacy.md)
+Project knowledge is stored once under `knowledge/`, organized by document topology and validated for future Knowledge Graph ingestion.
+
+- [Research and design](knowledge/project/golden-retriever/research-and-design.md)
+- [Experiment 1](knowledge/project/golden-retriever/experiment-1.md)
+- [Experiment 1 operations](knowledge/playbook/experiment-1-operations.md)
+- [Experiment 1 public start](knowledge/event/experiment-1-public-start-20260820.md)
+- [Privacy and telemetry policy](knowledge/standard/privacy-and-telemetry-policy.md)
+- [Knowledge document convention](knowledge/standard/knowledge-document-convention.md)
+- [Public site entity card](knowledge/entities/golden-retriever-site.md)
 
 ## Deployment boundary
 

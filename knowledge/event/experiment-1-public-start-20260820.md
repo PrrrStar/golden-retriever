@@ -1,4 +1,23 @@
-# Experiment 1 log
+---
+id: gr:event:experiment-1-public-start-20260820
+title: "Experiment 1 public start and baseline"
+domain: agent
+topology: event
+tags: [golden-retriever, experiment-1, public-launch, baseline, sites]
+status: confirmed
+last_updated: 2026-08-20
+author: jeemin.kim
+schema_version: 1
+summary: "Golden Retriever 공개 전환, production smoke test와 최초 calibration 결과 기록"
+describes: [event:golden-retriever-public-start]
+occurred_at: "2026-08-20T00:26:56+09:00"
+actions: [public-access-enabled, anonymous-smoke-tested, provider-ranges-refreshed, calibration-attempted]
+evidences: [gr:project:experiment-1]
+operated_by: [gr:playbook:experiment-1-operations]
+affected_entities: [entity:golden-retriever-site]
+---
+
+# Experiment 1 public start and baseline
 
 This is the append-only operator log for interventions and experiment boundaries. It contains no prompt text, raw IP address, secret, or personal identifier.
 

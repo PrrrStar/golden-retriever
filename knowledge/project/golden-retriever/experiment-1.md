@@ -1,9 +1,27 @@
+---
+id: gr:project:experiment-1
+title: "Experiment 1 — can public traps attract AI retrieval?"
+domain: agent
+topology: project
+tags: [golden-retriever, experiment-1, ai-retrieval, trap, calibration]
+status: in-progress
+last_updated: 2026-08-20
+author: jeemin.kim
+schema_version: 1
+summary: "공개 Trap이 실제 AI retrieval traffic을 유입하는지 검증하는 14일 실험 설계"
+describes: [experiment:golden-retriever-experiment-1]
+derived_from: [gr:project:research-and-design]
+operationalized_by: [gr:playbook:experiment-1-operations]
+evidenced_by: [gr:event:experiment-1-public-start-20260820]
+governed_by: [gr:standard:privacy-and-telemetry-policy]
+---
+
 # Experiment 1 — can public traps attract AI retrieval?
 
 Duration: 14 days after public deployment and indexability confirmation.
 
-Execution checklist: [Experiment 1 operations](experiment-1-operations.md).
-Intervention log: [Experiment 1 log](experiment-1-log.md).
+Execution checklist: [Experiment 1 operations](../../playbook/experiment-1-operations.md).
+Intervention log: [Experiment 1 public start](../../event/experiment-1-public-start-20260820.md).
 
 ## Primary hypothesis
 
