@@ -7,7 +7,7 @@ This runbook turns the design in `experiment-1.md` into a repeatable 14-day oper
 - Sites project and D1 binding are provisioned.
 - Version 1 passed a production health, Trap response, observation-write, and aggregate-read smoke test.
 - Provider-published OpenAI, Anthropic, and Perplexity network ranges were loaded successfully.
-- Access is owner-only. Do not start the experiment clock until public access and anonymous retrieval are verified.
+- Access is public. The experiment clock started after anonymous retrieval and production D1 writes were verified; see `experiment-1-log.md`.
 
 ## Operator environment
 

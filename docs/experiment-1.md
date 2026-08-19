@@ -3,6 +3,7 @@
 Duration: 14 days after public deployment and indexability confirmation.
 
 Execution checklist: [Experiment 1 operations](experiment-1-operations.md).
+Intervention log: [Experiment 1 log](experiment-1-log.md).
 
 ## Primary hypothesis
 
