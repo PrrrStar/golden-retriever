@@ -11,6 +11,7 @@ class FakeStatement {
   async all<T>(): Promise<D1Result<T>> {
     return { results: [], success: true, meta: {} } as unknown as D1Result<T>;
   }
+  async first<T>(): Promise<T | null> { return { ok: 1 } as T; }
 }
 
 class FakeDatabase {
@@ -90,6 +91,32 @@ describe("worker", () => {
     }), env, context);
     expect(allowed.status).toBe(200);
     expect((await allowed.json()) as Record<string, unknown>).toHaveProperty("convergence");
+  });
+
+  it("records a calibration attempt without accepting prompt text", async () => {
+    const { database, env, context } = harness();
+    const response = await worker.fetch(new Request("https://golden.example/api/admin/calibration-attempts", {
+      method: "POST",
+      headers: { Authorization: "Bearer admin-secret", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        actorFamily: "openai",
+        product: "ChatGPT",
+        path: "/concept/golden-retriever-calibration",
+        promptClass: "direct_url",
+        expectedMode: "user_fetcher",
+      }),
+    }), env, context);
+    expect(response.status).toBe(201);
+    expect(database.batches).toHaveLength(1);
+    expect(database.batches[0][2].query).toContain("INSERT INTO calibration_attempts");
+    expect(database.batches[0][2].values).not.toContain("prompt text");
+  });
+
+  it("checks database and secret configuration in health", async () => {
+    const { env, context } = harness();
+    const response = await worker.fetch(new Request("https://golden.example/healthz"), env, context);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ ok: true, database: true, secretsConfigured: true });
   });
 
   it("does not accept mutation methods", async () => {

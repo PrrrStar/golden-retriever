@@ -36,6 +36,7 @@ Useful endpoints:
 - `/sitemap.xml` — discoverable trap URLs
 - `/healthz` — health check
 - `/api/admin/summary` — protected aggregate output
+- `POST /api/admin/calibration-attempts` — record a controlled fetch attempt without prompt text
 - `POST /api/admin/provider-ranges/sync` — refresh official provider IP ranges
 
 For local development, copy `.dev.vars.example` to the ignored `.dev.vars` file and replace both values. For deployment, set `ADMIN_TOKEN` and `TELEMETRY_HMAC_KEY` as Worker secrets. The latter produces a daily rotating request fingerprint without retaining raw IP addresses.
@@ -46,6 +47,17 @@ printf '%s' 'replace-with-a-long-random-secret' | npx wrangler secret put TELEME
 ```
 
 Do not use those example values outside local development.
+
+Before each controlled calibration fetch, register its denominator event:
+
+```bash
+curl -X POST http://localhost:8787/api/admin/calibration-attempts \
+  -H 'Authorization: Bearer local-admin-token' \
+  -H 'Content-Type: application/json' \
+  --data '{"actorFamily":"openai","product":"ChatGPT","path":"/concept/golden-retriever-calibration","promptClass":"direct_url","expectedMode":"user_fetcher"}'
+```
+
+Only `direct_url` or `natural_question` prompt classes are accepted. Prompt text is intentionally not accepted or stored.
 
 ## Design
 

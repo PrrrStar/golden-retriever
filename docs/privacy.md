@@ -11,6 +11,7 @@ Golden Retriever measures aggregate retrieval attention. It does not seek person
 - referrer hostname without path or query
 - optional daily rotating HMAC of source IP
 - classifier version and experiment source
+- controlled calibration attempt metadata: operator family, product, trap, timestamp, expected mode, and prompt class
 
 ## Not collected
 

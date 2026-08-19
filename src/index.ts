@@ -26,11 +26,38 @@ export default {
       return json({ generatedAt: new Date().toISOString(), results }, results.some(({ ok }) => !ok) ? 207 : 200);
     }
 
+    if (url.pathname === "/api/admin/calibration-attempts" && request.method === "POST") {
+      if (!authorized(request, env.ADMIN_TOKEN)) return json({ error: "unauthorized" }, 401);
+      const parsed = await parseCalibrationAttempt(request);
+      if ("error" in parsed) return json({ error: "invalid_calibration_attempt", detail: parsed.error }, 400);
+      const match = findTrap(parsed.path);
+      if (!match || match.trap.experimentSource !== "calibration") return json({ error: "unknown_calibration_trap" }, 400);
+      const attempt = {
+        id: crypto.randomUUID(),
+        attemptedAt: parsed.attemptedAt,
+        actorFamily: parsed.actorFamily,
+        product: parsed.product,
+        trapId: match.trap.id,
+        promptClass: parsed.promptClass,
+        expectedMode: parsed.expectedMode,
+      } as const;
+      await new D1ObservationStore(env.DB).recordCalibrationAttempt(match.trap, attempt);
+      return json({ attempt }, 201);
+    }
+
     if (request.method !== "GET" && request.method !== "HEAD") {
       return json({ error: "method_not_allowed" }, 405, { Allow: "GET, HEAD" });
     }
 
-    if (url.pathname === "/healthz") return json({ ok: true });
+    if (url.pathname === "/healthz") {
+      try {
+        await env.DB.prepare("SELECT 1 AS ok").first();
+        const configured = Boolean(env.ADMIN_TOKEN && env.TELEMETRY_HMAC_KEY);
+        return json({ ok: configured, database: true, secretsConfigured: configured }, configured ? 200 : 503);
+      } catch {
+        return json({ ok: false, database: false, secretsConfigured: Boolean(env.ADMIN_TOKEN && env.TELEMETRY_HMAC_KEY) }, 503);
+      }
+    }
     if (url.pathname === "/robots.txt") return renderRobots(origin);
     if (url.pathname === "/sitemap.xml") return renderSitemap(origin);
     if (url.pathname === "/") return renderIndex(origin);
@@ -115,4 +142,38 @@ function json(payload: unknown, status = 200, headers: HeadersInit = {}): Respon
     status,
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...headers },
   });
+}
+
+interface ParsedCalibrationAttempt {
+  actorFamily: string;
+  product: string;
+  path: string;
+  promptClass: "direct_url" | "natural_question";
+  expectedMode: "user_fetcher" | "search_indexer";
+  attemptedAt: string;
+}
+
+async function parseCalibrationAttempt(request: Request): Promise<ParsedCalibrationAttempt | { error: string }> {
+  try {
+    const input = await request.json() as Record<string, unknown>;
+    const actorFamily = shortString(input.actorFamily, 40);
+    const product = shortString(input.product, 80);
+    const path = shortString(input.path, 200);
+    const promptClass = input.promptClass;
+    const expectedMode = input.expectedMode;
+    const attemptedAt = typeof input.attemptedAt === "string" ? new Date(input.attemptedAt) : new Date();
+    if (!actorFamily || !product || !path) return { error: "actorFamily, product, and path are required" };
+    if (promptClass !== "direct_url" && promptClass !== "natural_question") return { error: "invalid promptClass" };
+    if (expectedMode !== "user_fetcher" && expectedMode !== "search_indexer") return { error: "invalid expectedMode" };
+    if (Number.isNaN(attemptedAt.getTime())) return { error: "invalid attemptedAt" };
+    return { actorFamily, product, path: new URL(path, "https://calibration.invalid").pathname, promptClass, expectedMode, attemptedAt: attemptedAt.toISOString() };
+  } catch {
+    return { error: "body must be valid JSON" };
+  }
+}
+
+function shortString(value: unknown, length: number): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed ? trimmed.slice(0, length) : undefined;
 }

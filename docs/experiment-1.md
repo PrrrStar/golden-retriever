@@ -25,12 +25,15 @@ Use only traps labeled `calibration`.
 
 For each available product, execute a controlled request at a recorded time:
 
+- register the attempt through the authenticated calibration endpoint; store only operator, product, trap, timestamp, expected mode, and prompt class
 - ask it to fetch a calibration URL directly
 - ask a natural-language question whose answer is on that URL
 - repeat at most three times per operator
 - record operator, product, timestamp, URL, and prompt class outside the HTTP telemetry
 
 Calibration observations never enter organic usage or convergence metrics.
+
+The aggregate endpoint matches an attempt to a same-family observation on the same trap from five minutes before through thirty minutes after the registered attempt. This makes the calibration denominator explicit without storing prompt text.
 
 Pass condition: at least 80% of known fetch attempts that actually issue HTTP requests appear in storage with the expected trap and a plausible actor classification.
 
