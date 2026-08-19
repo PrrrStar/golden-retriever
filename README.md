@@ -68,3 +68,5 @@ Only `direct_url` or `natural_question` prompt classes are accepted. Prompt text
 ## Deployment boundary
 
 The repository contains deployable Cloudflare Workers and D1 configuration, but creating a Cloudflare database, setting production secrets, attaching a domain, and deploying are separate operational actions.
+
+The same Worker can be packaged for OpenAI Sites. `.openai/hosting.json` declares the logical `DB` binding, `npm run build` emits the Worker-compatible Sites entrypoint, and `drizzle/` contains the ordered D1 migrations.
