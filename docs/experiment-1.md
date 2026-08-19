@@ -2,6 +2,8 @@
 
 Duration: 14 days after public deployment and indexability confirmation.
 
+Execution checklist: [Experiment 1 operations](experiment-1-operations.md).
+
 ## Primary hypothesis
 
 Different public information utilities can attract observable AI retrieval traffic, including user- or agent-directed fetches rather than only training and indexing crawlers.

@@ -63,6 +63,7 @@ Only `direct_url` or `natural_question` prompt classes are accepted. Prompt text
 
 - [Research and design](docs/research-and-design.md)
 - [Experiment 1](docs/experiment-1.md)
+- [Experiment 1 operations](docs/experiment-1-operations.md)
 - [Privacy](docs/privacy.md)
 
 ## Deployment boundary
